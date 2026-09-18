@@ -207,7 +207,7 @@ CreateThread(function()
     end
 end)
 
-AddEventHandler('lxr:player:loaded', function(src) Wait(1000) publish(src) end)
+AddEventHandler('lxr:player:loaded', function(Pl) local src = type(Pl) == 'table' and Pl.PlayerData and Pl.PlayerData.source or Pl if src then Wait(1000) publish(src) end end)   -- the core passes the player object
 AddEventHandler('playerDropped', function() buckets[source] = nil end)
 CreateThread(function() if Config.Debug.printBanner then print(('^1[lxr-post]^7 v%s — %d offices, %d trade boxes'):format(GetResourceMetadata(RES, 'version', 0), #Config.Offices, #Config.Boxes)) end end)
 exports('Send', function(address, fromName, kind, subject, body) local now = os.time() return LXRCore.DB.Insert('INSERT INTO lxr_post_mail (address, from_cid, from_name, to_name, kind, subject, body, sent_at, deliver_at, dated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', { address, 'system', fromName or 'The Post', address, kind or 'telegram', P.Clean(subject, Config.Rates.subjectMax), P.Clean(body), now, now + P.Delay(kind or 'telegram'), gameDate() }) end)
