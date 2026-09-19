@@ -67,7 +67,7 @@ end
 CreateThread(function()
     while GetResourceState('lxr-interact') ~= 'started' do Wait(1000) end
     for _, o in ipairs(Config.Offices) do
-        if o.blip then local b = N(0x554D9D53F696D002, 1664425300, o.coords.x, o.coords.y, o.coords.z) if b and b ~= 0 then N(0x74F74D3207ED525C, b, joaat('blip_post_office'), true) N(0x9CB1A1623062F402, b, o.label) end end
+        if o.blip then local b = N(0x554D9D53F696D002, 1664425300, o.coords.x, o.coords.y, o.coords.z) if b and b ~= 0 then N(0x74F74D3207ED525C, b, joaat('blip_post_office'), true) if GetResourceState('lxr-mapcolor') == 'started' then pcall(function() N(0x662D364ABF16DE2F, b, exports['lxr-mapcolor']:modifier('post')) end) end N(0x9CB1A1623062F402, b, o.label) end end
     end
     while true do
         if LocalPlayer.state.isLoggedIn then
